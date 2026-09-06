@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de venta telefónica · MyPath.IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --celeste:#399AB8; --opulent:#133039; --chocolate:#151111; --spa:#4D6A73;
+    --oat:#F6F0EC; --linen:#F8F8F8; --border:#DFD8D1; --muted:#8A9EA5;
+    --ok:#2D8270; --err:#A02020; --info:#399AB8;
+    --dark-surface:rgba(246,240,236,.05); --dark-border:rgba(246,240,236,.12); --dark-div:rgba(246,240,236,.10);
+    --od-75:rgba(246,240,236,.75); --od-55:rgba(246,240,236,.55); --od-40:rgba(246,240,236,.40); --od-35:rgba(246,240,236,.35);
+    --fh:'Space Grotesk',system-ui,sans-serif; --fb:'Quicksand',system-ui,sans-serif; --fm:'DM Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--oat);color:var(--chocolate);font-family:var(--fb);-webkit-font-smoothing:antialiased}
+  a{color:var(--celeste);text-decoration:none}
+  a:hover{opacity:.85}
+  ::selection{background:rgba(57,154,184,.18)}
+  h1,h2,h3{margin:0}
+  p{margin:0}
+  strong{font-family:var(--fh);font-weight:600}
+
+  .hero{position:relative;background:var(--opulent);color:var(--oat);padding:72px 64px 60px;overflow:hidden}
+  .hero .blob{position:absolute;top:-160px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(57,154,184,.14),transparent 68%);pointer-events:none}
+  .hero .inner{position:relative;max-width:1000px;margin:0 auto}
+  .kicker{font-family:var(--fm);font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--celeste)}
+  .h1{font-family:var(--fh);font-size:52px;line-height:1.05;letter-spacing:-1px;font-weight:700;margin:18px 0 0;color:var(--oat)}
+  .sub{font-family:var(--fh);font-size:21px;font-weight:400;color:var(--od-75);margin:14px 0 0;line-height:1.35}
+  .rule{width:48px;height:2px;background:var(--celeste);margin:30px 0 26px}
+  .lead{font-size:17px;line-height:1.8;color:var(--od-75);max-width:660px}
+
+  .shell{max-width:860px;margin:0 auto;padding:20px 64px 130px}
+  .sec{padding:64px 0 8px}
+  .sec+.sec{border-top:1px solid var(--border);margin-top:56px}
+  .eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .eyebrow span:first-child{width:28px;height:2px;background:var(--celeste)}
+  .eyebrow span:last-child{font-family:var(--fm);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--spa)}
+  .h2{font-family:var(--fh);font-size:32px;line-height:1.15;letter-spacing:-.4px;font-weight:600;color:var(--chocolate);margin:0 0 22px}
+  .body{font-size:16px;line-height:1.8;max-width:680px;margin:0 0 18px}
+  .body.big{font-size:17px}
+  .intro{font-size:16px;line-height:1.75;color:var(--spa);max-width:680px;margin:0 0 34px}
+
+  .pullquote{padding:30px 34px;background:var(--opulent);border-radius:12px;max-width:680px}
+  .pullquote p{font-family:var(--fh);font-size:23px;line-height:1.35;font-weight:500;color:var(--oat)}
+  .pullquote .accent{color:var(--celeste)}
+
+  .grouplabel{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .grouplabel .dot{width:9px;height:9px;border-radius:50%}
+  .grouplabel span:last-child{font-family:var(--fm);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--chocolate)}
+
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+  .card{background:var(--linen);border:1px solid var(--border);border-radius:12px;padding:24px 26px;display:flex;flex-direction:column}
+  .card.ok{border-top:2px solid var(--ok)}
+  .card.info{border-top:2px solid var(--info)}
+  .card h3{font-family:var(--fh);font-size:20px;font-weight:600;color:var(--chocolate)}
+  .card .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .card .age{font-family:var(--fm);font-size:11px;letter-spacing:1px;color:var(--spa);white-space:nowrap}
+  .card .desc{font-size:14.5px;line-height:1.7;color:var(--chocolate);margin:0 0 16px}
+  .status{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--chocolate)}
+  .status .d{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+  .callout{padding:20px 24px;background:var(--linen);border:1px solid var(--border);border-left:2px solid var(--celeste);border-radius:8px}
+  .callout p{font-size:15.5px;line-height:1.75;color:var(--chocolate)}
+
+  .step{display:flex;gap:22px}
+  .step+.step{padding-top:26px;border-top:1px solid var(--border);margin-top:14px}
+  .step .num{flex-shrink:0;width:36px;height:36px;border-radius:9999px;background:var(--celeste);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:600;font-size:16px}
+  .step .b{flex:1;min-width:0}
+  .step h3{font-family:var(--fh);font-size:19px;font-weight:600;margin:4px 0 6px;color:var(--chocolate)}
+  .step .cap{font-size:15px;color:var(--spa);margin:0 0 14px}
+  .step blockquote{border-left:2px solid var(--celeste);padding:2px 0 2px 22px;margin:0}
+  .step blockquote p{font-size:15.5px;line-height:1.8;color:var(--chocolate)}
+  .step blockquote p+p{margin-top:12px}
+  .li{display:flex;gap:12px;margin:0 0 10px}
+  .li .bt{color:var(--celeste);flex-shrink:0;font-weight:700}
+  .li span:last-child{font-size:15.5px;line-height:1.75}
+  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--celeste);color:#fff;font-family:var(--fh);font-weight:600;font-size:14px;letter-spacing:.4px;padding:12px 22px;border-radius:8px}
+
+  .matrow{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 22px}
+  .matrow+.matrow{border-top:1px solid var(--border)}
+  .matbox{border:1px solid var(--border);border-radius:12px;background:var(--linen);overflow:hidden}
+  .matlink{display:inline-flex;align-items:center;gap:7px;font-family:var(--fh);font-size:13px;font-weight:600;color:var(--celeste)}
+
+  .rulecard{background:var(--linen);border:1px solid var(--border);border-radius:12px;padding:26px}
+  .rulecard.si{border-top:2px solid var(--ok)}
+  .rulecard.no{border-top:2px solid var(--err)}
+  .rulehead{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .rulehead .dot{width:9px;height:9px;border-radius:50%}
+  .rulehead span:last-child{font-family:var(--fh);font-size:15px;font-weight:600;letter-spacing:.5px;color:var(--chocolate)}
+  .rulelist{display:flex;flex-direction:column;gap:14px}
+  .ri{display:flex;gap:11px}
+  .ri .m{flex-shrink:0;font-weight:700}
+  .ri span:last-child{font-size:14.5px;line-height:1.7}
+
+  .obj{background:var(--linen);border:1px solid var(--border);border-radius:12px;padding:24px 26px}
+  .obj .q{font-family:var(--fh);font-size:17px;font-weight:600;color:var(--chocolate);margin:0 0 12px;line-height:1.4}
+  .obj .a{border-left:2px solid var(--celeste);padding-left:18px}
+  .obj .a p{font-size:15px;line-height:1.8;color:var(--chocolate)}
+
+  .cheat{background:var(--opulent);border-radius:16px;padding:40px 42px;color:var(--oat)}
+  .cheat .cl{font-family:var(--fm);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--celeste);margin-bottom:14px}
+  .cheat .pitch{font-family:var(--fh);font-size:24px;line-height:1.4;font-weight:500;color:var(--oat);max-width:720px}
+  .cheat .div{height:1px;background:var(--dark-div);margin:32px 0}
+  .cheat .cols{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+  .cheat .colh{font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .cheat .list{display:flex;flex-direction:column;gap:12px}
+  .cheat .item{display:flex;gap:12px}
+  .cheat .item .n{font-family:var(--fm);font-size:13px;flex-shrink:0}
+  .cheat .item span:last-child{font-size:14.5px;line-height:1.65;color:var(--od-75)}
+  .cheat .close{margin-top:34px;padding:22px 26px;background:var(--dark-surface);border:1px solid var(--dark-border);border-left:2px solid var(--celeste);border-radius:10px}
+  .cheat .close p{font-family:var(--fh);font-size:19px;font-weight:500;color:var(--oat)}
+
+  .statcard{background:var(--linen);border:1px solid var(--border);border-radius:12px;padding:24px;position:relative;overflow:hidden}
+  .statcard .top{position:absolute;top:0;left:0;right:0;height:2px;background:var(--celeste)}
+  .statcard .l{font-family:var(--fm);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--spa);margin-bottom:12px}
+  .statcard .v{font-family:var(--fh);font-size:38px;font-weight:700;color:var(--celeste);line-height:1}
+  .statcard .u{font-size:13px;color:var(--spa);margin-top:8px}
+
+  .tbl-wrap{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  thead tr{background:var(--opulent)}
+  th{text-align:left;padding:11px 18px;font-family:var(--fh);font-weight:600;font-size:11px;letter-spacing:.4px;color:var(--oat)}
+  td{padding:12px 18px;font-size:14px}
+  td.k{color:var(--spa)} td.v{color:var(--chocolate)}
+  tbody tr:nth-child(even){background:var(--linen)}
+  tbody tr:nth-child(odd){background:var(--oat)}
+  tbody tr+tr{border-top:1px solid var(--border)}
+
+  .foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--fm);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+
+  @media(max-width:860px){
+    .g2,.g3,.cheat .cols{grid-template-columns:1fr}
+    .hero{padding:52px 32px 44px}
+    .shell{padding:20px 32px 90px}
+    .h1{font-size:40px} .h2{font-size:27px}
+    .cheat{padding:30px 26px}
+  }
+  @media(max-width:560px){
+    .hero{padding:44px 20px 40px}
+    .shell{padding:16px 20px 72px}
+    .h1{font-size:30px} .sub{font-size:18px} .h2{font-size:23px}
+    .lead,.body{font-size:15.5px}
+    .pullquote{padding:24px 22px} .pullquote p{font-size:19px}
+    .cheat .pitch{font-size:20px} .step{gap:14px}
+    .step .num{width:32px;height:32px;font-size:15px}
+    td,th{padding:10px 13px}
+  }
+</style>
+
+<style>
+  .meta{font-family:var(--fm);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--od-55);margin-top:34px}
+  .script{background:var(--linen);border:1px solid var(--border);border-radius:12px;padding:26px 30px;max-width:680px}
+  .script.dark{background:var(--opulent);border-color:transparent}
+  .script blockquote{margin:0;border-left:2px solid var(--celeste);padding:2px 0 2px 22px}
+  .script blockquote p{font-family:var(--fh);font-size:16.5px;line-height:1.7;font-weight:500;color:var(--chocolate)}
+  .script.dark blockquote p{color:var(--oat)}
+  .script blockquote p+p{margin-top:14px}
+  .why{font-size:15px;line-height:1.75;color:var(--spa);max-width:680px;margin:16px 0 0}
+  .h3{font-family:var(--fh);font-size:19px;font-weight:600;color:var(--chocolate);margin:38px 0 14px}
+  .h3.first{margin-top:0}
+  .cap{font-family:var(--fm);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--spa);margin:0 0 12px}
+  .stack{display:flex;flex-direction:column;gap:16px}
+  .stack.sm{gap:12px}
+  .qline{font-size:15.5px;line-height:1.75;margin:0 0 8px;color:var(--spa)}
+  .quote-sm{border-left:2px solid var(--celeste);padding-left:20px;margin:0 0 22px;max-width:680px}
+  .quote-sm p{font-family:var(--fh);font-size:16px;line-height:1.7;font-weight:500;color:var(--chocolate)}
+  .quote-sm p+p{margin-top:12px}
+  .refbox{background:var(--linen);border:1px solid var(--border);border-radius:12px;padding:22px 26px}
+  .refbox .c{font-family:var(--fm);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--celeste);margin-bottom:10px}
+  .refbox .n{font-size:15px;line-height:1.8;color:var(--chocolate)}
+  .tbl-wrap.scrollx{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch}
+  .tbl-wrap.scrollx table{min-width:760px}
+  .tbl-wrap.scrollx td,.tbl-wrap.scrollx th{white-space:normal}
+  @media(max-width:560px){.script{padding:20px 20px}.script blockquote{padding-left:16px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="blob"></div>
+  <div class="inner">
+    <div class="kicker">MY PATH.IA · Manual de venta telefónica</div>
+    <h1 class="h1">Manual de venta telefónica</h1>
+    <p class="sub">Objetivo único: agendar una reunión</p>
+    <div class="rule"></div>
+    <p class="lead">El objetivo es la reunión. No es explicar el producto, no es despertar interés técnico y no es responder qué es MyPath.IA.</p>
+    <p class="meta">Versión 1.1 · Septiembre 2026 · Uso del equipo comercial</p>
+  </div>
+</header>
+
+<main class="shell">
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 01</span></div>
+    <h2 class="h2">Regla de la llamada</h2>
+    <p class="body big">El objetivo es la reunión. No es explicar el producto, no es despertar interés técnico y no es responder qué es MyPath.IA.</p>
+    <p class="body">Cada segundo dedicado a explicar resta al objetivo. Si el interlocutor termina la llamada sabiendo exactamente qué hacemos, la llamada salió mal: ya no necesita la reunión.</p>
+    <div class="pullquote"><p>Duración objetivo: <span class="accent">90 segundos</span>. Si a los dos minutos no hay reunión ni negativa clara, se cierra con seguimiento y se corta.</p></div>
+    <h3 class="h3">Lo que sí tiene que pasar en esos 90 segundos</h3>
+    <div class="li"><span class="bt">—</span><span>Que reconozca un problema suyo en lo que decimos.</span></div>
+    <div class="li"><span class="bt">—</span><span>Que sienta que no le estamos vendiendo.</span></div>
+    <div class="li"><span class="bt">—</span><span>Que la reunión le cueste poco decir que sí.</span></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 02</span></div>
+    <h2 class="h2">Cómo nos posicionamos</h2>
+    <div class="pullquote"><p>Vendemos <span class="accent">MyPath.IA</span>. Entramos por <span class="accent">Mento.IA</span>.</p></div>
+    <p class="body" style="margin-top:24px">Esta es la regla que ordena toda la conversación y no se rompe en ninguna llamada.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:50%">Formulación correcta</th><th>Formulación que nos perjudica</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="v">"MyPath.IA es una plataforma que construye el perfil del alumno a lo largo de toda su escolaridad. Se empieza por Mento.IA, que es el módulo de orientación de secundaria."</td>
+            <td class="k">"Mento.IA es una plataforma de orientación vocacional."</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="h3">Por qué importa, más allá de la marca</h3>
+    <div class="stack">
+      <div class="card info"><div class="head"><h3>Precio</h3></div><p class="desc" style="margin:0">Un módulo de orientación se compara con cualquier proveedor de tests. Un perfil acumulado no tiene comparador.</p></div>
+      <div class="card info"><div class="head"><h3>Permanencia</h3></div><p class="desc" style="margin:0">Un test es una compra puntual. Un perfil que se enriquece cada año es una relación que se renueva sola.</p></div>
+      <div class="card info"><div class="head"><h3>Crecimiento de cuenta</h3></div><p class="desc" style="margin:0">Si el colegio compró "Mento.IA", cada módulo nuevo es una venta desde cero. Si compró "MyPath.IA", es una ampliación de lo que ya tiene.</p></div>
+    </div>
+    <h3 class="h3">Y la regla que evita sobrevender: el roadmap no se ofrece, se responde.</h3>
+    <p class="body">Nunca abrimos hablando de lo que vendrá. Si el interlocutor pregunta qué más hay, se responde con la ficha correspondiente y con la fecha explícita. Prometer ecosistema y entregar un módulo es la vía más rápida a una no renovación.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 03</span></div>
+    <h2 class="h2">Antes de marcar</h2>
+    <div class="li"><span class="bt">01</span><span>Nombre del interlocutor. Llamar sin nombre baja la tasa a la mitad.</span></div>
+    <div class="li"><span class="bt">02</span><span>Número aproximado de alumnos y etapas que imparte el centro.</span></div>
+    <div class="li"><span class="bt">03</span><span>Si es bilingüe, IB o Cambridge. Cambia el gancho.</span></div>
+    <div class="li"><span class="bt">04</span><span>Horario: media mañana, entre las 10 y las 12:30. Evitar entrada y salida, primera y última semana de curso, y semanas de evaluación.</span></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 04</span></div>
+    <h2 class="h2">Recepción · pasar el filtro</h2>
+    <p class="intro">No se pitchea a recepción. Se le pide ayuda para enrutar.</p>
+    <div class="script"><blockquote><p>"Buenos días. ¿Me podría pasar con el Departamento de Orientación, por favor?"</p></blockquote></div>
+    <h3 class="h3">Si pregunta de parte de quién</h3>
+    <div class="quote-sm"><p>"Soy [nombre], de MyPath.IA."</p></div>
+    <h3 class="h3">Si pregunta de qué se trata</h3>
+    <div class="quote-sm"><p>"Es sobre el programa de orientación y acompañamiento de los alumnos. ¿Con quién lo debería hablar, con orientación o directamente con dirección?"</p></div>
+    <p class="why" style="margin-bottom:8px">La pregunta final es deliberada. Recepción responde bien cuando se le pide criterio y mal cuando se le pide permiso. Y de paso nos da el nombre.</p>
+    <h3 class="h3">Si dice que envíe un correo</h3>
+    <div class="quote-sm"><p>"Se lo envío, claro. ¿Me puede decir a quién se lo dirijo, para que no se pierda en la bandeja general?"</p></div>
+    <div class="callout"><p>Un nombre es una llamada futura. Un correo genérico no es nada.</p></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 05</span></div>
+    <h2 class="h2">Variante A · Orientación o jefatura de estudios</h2>
+    <div class="script dark"><blockquote>
+      <p>"Buenos días, ¿hablo con [nombre]? Soy [nombre], de MyPath.IA.</p>
+      <p>Le pido treinta segundos y usted me dice si tiene sentido seguir.</p>
+      <p>Trabajamos con colegios en orientación y acompañamiento del alumno. Y lo que nos encontramos casi siempre es lo mismo: el colegio conoce muy bien a sus alumnos, pero ese conocimiento está en la cabeza de los tutores, se pierde cuando cambian de curso, y cuando llega el momento de elegir, nadie tiene el recorrido completo delante.</p>
+      <p>¿Les pasa algo parecido, o lo tienen resuelto?"</p>
+    </blockquote></div>
+    <p class="why"><strong>Por qué funciona.</strong> No dice qué vendemos. Describe una situación que quien está en orientación reconoce de inmediato, y la pregunta final es honesta: le da salida. Casi nadie contesta que lo tiene resuelto, porque nadie lo tiene.</p>
+    <h3 class="h3">Ganchos alternativos según el centro</h3>
+    <div class="stack">
+      <div class="card"><p class="cap">Centro con departamento de orientación pequeño</p><p class="desc" style="margin:0">"...y el departamento acaba llegando a los casos que ya explotaron, no a los que se están gestando."</p></div>
+      <div class="card"><p class="cap">Centro IB o Cambridge</p><p class="desc" style="margin:0">"...y la decisión de si un alumno entra o no en el Diploma se acaba tomando con la intuición del tutor, sin datos que la respalden."</p></div>
+      <div class="card"><p class="cap">Centro con primaria y secundaria</p><p class="desc" style="margin:0">"...y lo que se sabe de un niño en primaria no llega a secundaria. Cada etapa empieza de cero."</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 06</span></div>
+    <h2 class="h2">Variante B · Dirección o titularidad</h2>
+    <p class="intro">El director no tiene el dolor del orientador. Tiene otro.</p>
+    <div class="script dark"><blockquote>
+      <p>"Buenos días, ¿hablo con [nombre]? Soy [nombre], de MyPath.IA.</p>
+      <p>Le pido treinta segundos y usted me dice si le interesa.</p>
+      <p>Trabajamos con colegios en el acompañamiento del alumno a lo largo de toda su escolaridad. Y hay una conversación que se repite mucho: las familias preguntan cada vez más qué hace el colegio por el futuro de su hijo, y la respuesta que puede dar el colegio son notas y buena voluntad. Que es verdad, pero no se puede enseñar.</p>
+      <p>¿Cómo lo están resolviendo ustedes hoy?"</p>
+    </blockquote></div>
+    <p class="why"><strong>Por qué funciona.</strong> Habla de posicionamiento y de familias, que es su terreno. Y la pregunta final le invita a explicar lo que hace, que es lo que un director quiere hacer.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 07</span></div>
+    <h2 class="h2">El cierre</h2>
+    <p class="intro">En cuanto conteste, sea lo que sea, vamos a la reunión. No se profundiza.</p>
+    <div class="script dark"><blockquote>
+      <p>"Le propongo una cosa concreta: veinte minutos, sin presentación comercial. Le enseño la plataforma funcionando con un caso real de un alumno y usted juzga si le sirve. Si veo que no encaja con su colegio, se lo digo yo mismo y no le hago perder más tiempo.</p>
+      <p>¿Le viene mejor [día] por la mañana o [día] a primera hora de la tarde?"</p>
+    </blockquote></div>
+    <h3 class="h3">Tres elementos que no se cambian</h3>
+    <div class="g3">
+      <div class="statcard"><span class="top"></span><div class="l">Acotado en tiempo</div><p class="desc" style="margin:0">Veinte minutos es una barrera baja.</p></div>
+      <div class="statcard"><span class="top"></span><div class="l">Sin presentación comercial</div><p class="desc" style="margin:0">Es cierto: en la reunión se enseña la plataforma, no un PPT.</p></div>
+      <div class="statcard"><span class="top"></span><div class="l">Doble opción de día</div><p class="desc" style="margin:0">No se pregunta si quiere reunirse. Se pregunta cuándo.</p></div>
+    </div>
+    <p class="why">Y la frase de que se lo diremos si no encaja desarma la defensa, porque nadie espera que un comercial diga eso.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 08</span></div>
+    <h2 class="h2">Fichas de módulo</h2>
+    <p class="intro"><strong>Uso:</strong> solo cuando pregunten. Cada ficha está escrita para decirse en voz alta en menos de veinte segundos. No se encadenan: se responde la que preguntaron y se vuelve al cierre.</p>
+
+    <div class="grouplabel"><span class="dot" style="background:var(--ok)"></span><span>Activo hoy</span></div>
+    <div class="g2" style="margin-bottom:38px">
+      <div class="card ok"><div class="head"><h3>Mento.IA</h3><span class="age">12 – 18 años</span></div><p class="cap">Orientación</p><p class="desc">"Es el módulo de secundaria. En lugar de un test en el último año, el alumno hace un recorrido de seis años con evaluaciones cortas adaptadas a su edad, más o menos una hora al año. El colegio no prepara nada. El orientador recibe el informe de cada alumno y el del grupo completo."</p><span class="status"><span class="d" style="background:var(--ok)"></span>Disponible</span></div>
+      <div class="card ok"><div class="head"><h3>Campus</h3><span class="age">16 años en adelante</span></div><p class="cap">Búsqueda universitaria</p><p class="desc">"Es el buscador de universidades, pero no busca por nombre de carrera: busca por el perfil del alumno. Más de cincuenta mil programas, mil cien universidades, veintidós países. Y le dice qué requisitos le piden de verdad y dónde está él respecto de esos requisitos."</p><span class="status"><span class="d" style="background:var(--ok)"></span>Disponible</span></div>
+    </div>
+
+    <div class="grouplabel"><span class="dot" style="background:var(--info)"></span><span>Marzo 2027</span></div>
+    <div class="g2" style="margin-bottom:38px">
+      <div class="card info"><div class="head"><h3>Mind.IA</h3><span class="age">6 – 12 años</span></div><p class="cap">Detección temprana</p><p class="desc">"Es el equivalente para primaria. Detecta señales tempranas —dificultades de aprendizaje, ansiedad, problemas de convivencia— con instrumentos validados, integrados en la actividad normal del aula. Los resultados van solo al orientador, nunca al niño ni a la familia. No diagnostica: detecta y avisa a tiempo."</p><span class="status"><span class="d" style="background:var(--info)"></span>Marzo 2027</span></div>
+      <div class="card info"><div class="head"><h3>Mindset.IA</h3><span class="age">16 – 18 años</span></div><p class="cap">Perfil emprendedor</p><p class="desc">"Trabaja el perfil emprendedor en los dos últimos años, sobre un proyecto real, no sobre cuestionarios."</p><span class="status"><span class="d" style="background:var(--info)"></span>Marzo 2027</span></div>
+    </div>
+
+    <div class="grouplabel"><span class="dot" style="background:var(--info)"></span><span>Finales 2027</span></div>
+    <div class="g2" style="margin-bottom:38px">
+      <div class="card info"><div class="head"><h3>LINNO</h3></div><p class="cap">Red de profesionales</p><p class="desc">"Es una plataforma de profesionales: psicólogos, logopedas, profesores particulares. Cuando el colegio detecta que un alumno necesita apoyo, hoy deriva a ciegas. Con LINNO puede conectarlo directamente."</p><span class="status"><span class="d" style="background:var(--info)"></span>Finales 2027</span></div>
+    </div>
+
+    <div class="grouplabel"><span class="dot" style="background:var(--info)"></span><span>Marzo 2028</span></div>
+    <div class="g2" style="margin-bottom:38px">
+      <div class="card info"><div class="head"><h3>Módulos de asignaturas</h3></div><p class="desc">"Un colegio enseña en línea recta y ningún alumno aprende en línea recta. Estos módulos identifican el nivel real de cada alumno y generan caminos distintos para llegar al mismo objetivo. Es atención a la diversidad ejecutada de verdad, no declarada en el proyecto educativo."</p><span class="status"><span class="d" style="background:var(--info)"></span>Marzo 2028</span></div>
+    </div>
+
+    <div class="grouplabel"><span class="dot" style="background:var(--spa)"></span><span>Línea de salud</span></div>
+    <div class="g2">
+      <div class="card"><div class="head"><h3>My.Cognition</h3></div><p class="cap">Rehabilitación neurocognitiva</p><p class="desc">"Es nuestra línea de salud: rehabilitación cognitiva para chicos que han pasado por tratamientos médicos con impacto en el cerebro y vuelven al aula con secuelas."</p></div>
+    </div>
+    <div class="callout" style="margin-top:22px"><p><strong>Cuándo mencionarlo.</strong> Solo si preguntan por la línea de salud, o si el colegio plantea un caso concreto de un alumno en esa situación. En una llamada estándar de venta a un colegio, introducirlo sin motivo desvía la conversación.</p></div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 09</span></div>
+    <h2 class="h2">Colegios de referencia</h2>
+    <p class="intro"><strong>Cómo se usa.</strong> No se recitan. Se menciona el que sea relevante para ese interlocutor: mismo país, mismo perfil de centro o mismo currículo.</p>
+    <div class="g3">
+      <div class="refbox"><div class="c">Argentina</div><p class="n">Belgrano Day School · Colegio Jesús María · Mar del Plata Day School · Grupo Affinitas · Northland · Northfield</p></div>
+      <div class="refbox"><div class="c">Honduras</div><p class="n">Discovery School · Escuela Internacional Sampedrana · Mayan School · Antares School · Aldebarán Bilingual School</p></div>
+      <div class="refbox"><div class="c">España</div><p class="n">Grupo Salesianas · Grupo Arenales</p></div>
+    </div>
+    <h3 class="h3">Cómo explicar el desequilibrio entre mercados</h3>
+    <p class="body">Si el interlocutor español pregunta por qué hay más centros en Latinoamérica:</p>
+    <div class="script"><blockquote><p>"Nacimos en febrero de 2026. El curso en el Cono Sur arranca en marzo, así que ahí pudimos entrar de inmediato. En España el calendario nos dejó fuera del ciclo de contratación del curso pasado, y por eso estamos abriendo ahora."</p></blockquote></div>
+    <p class="why">Es la verdad, es verificable y convierte una posible debilidad en una explicación de calendario. No conviene rodearla ni omitirla: un director de colegio entiende perfectamente cómo funcionan los ciclos de contratación.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 10</span></div>
+    <h2 class="h2">Objeciones</h2>
+    <div class="stack">
+      <div class="obj"><p class="q">"Ya tenemos un programa de orientación."</p><div class="a"><p>"Me lo imaginaba, la mayoría de los colegios con los que hablamos lo tienen. Nosotros no venimos a sustituirlo: lo que hacemos es darle al orientador el recorrido del alumno año a año, que es lo que ningún programa aporta. En veinte minutos lo ve y decide. ¿[Día] o [día]?"</p></div></div>
+      <div class="obj"><p class="q">"Envíeme información por correo."</p><div class="a"><p>"Se la envío hoy mismo. Pero le soy honesto: el documento no enseña lo que importa, que es la plataforma en funcionamiento. Le propongo que le mande el material y dejemos apalabrados veinte minutos la semana que viene. Si al ver el correo decide que no, me escribe y lo cancelamos sin más."</p></div></div>
+      <div class="obj"><p class="q">"No tenemos presupuesto." · España</p><div class="a"><p>"Le doy el número y así lo descartamos o no en un minuto: son diez euros por alumno y año, en un solo pago. Para un centro de seiscientos alumnos son seis mil euros al año, todo incluido. ¿Le sigue pareciendo una conversación de presupuesto o le reservo veinte minutos?"</p></div><p class="why" style="margin-top:16px">En el resto de mercados, mientras no haya precio cerrado: "Trabajamos por alumno y por año, no por licencia de centro, así que el número suele sorprender. Se lo concreto en la reunión con su número de alumnos delante."</p></div>
+      <div class="obj"><p class="q">"Ahora no es el momento."</p><div class="a"><p>"Perfecto, no quiero interrumpirle en mal momento. ¿Cuándo tendría sentido volver a llamarle: en un mes, después de evaluaciones?" (Anotar fecha concreta y cumplirla.)</p></div></div>
+      <div class="obj"><p class="q">"¿Qué es exactamente?"</p><div class="a"><p>"MyPath.IA es una plataforma que construye el perfil del alumno a lo largo de toda su escolaridad. Se entra por Mento.IA, que es el módulo de orientación de secundaria y es lo que está funcionando hoy. Pero se entiende viéndolo, no contándolo. Deme veinte minutos."</p></div></div>
+      <div class="obj"><p class="q">"¿Es inteligencia artificial?"</p><div class="a"><p>"Hay inteligencia artificial detrás, sí, pero no es lo relevante. Lo relevante es que el orientador tenga delante el recorrido completo del alumno, cosa que hoy no existe. La tecnología es el medio."</p></div></div>
+      <div class="obj"><p class="q">"¿Con qué colegios trabajan?"</p><p class="qline">(Mencionar dos o tres del mismo país o perfil, nunca la lista completa.)</p><div class="a"><p>"En Argentina, con Belgrano Day School y Mar del Plata Day School, entre otros. En España, con Grupo Arenales y Grupo Salesianas."</p></div></div>
+      <div class="obj"><p class="q">"¿Cuántos años llevan?"</p><div class="a"><p>"Nacimos en febrero de 2026, así que somos jóvenes. Y a la vez ya estamos en tres países y con colegios de referencia trabajando con nosotros. Prefiero que lo juzgue viendo la plataforma antes que por nuestra antigüedad."</p></div></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 11</span></div>
+    <h2 class="h2">Lo que no se dice</h2>
+    <div class="rulecard no">
+      <div class="rulehead"><span class="dot" style="background:var(--err)"></span><span>Nunca en una llamada</span></div>
+      <div class="rulelist">
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No abrir con inteligencia artificial.</strong> Dispara escepticismo o desvía la conversación al terreno equivocado.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No decir test, evaluación psicométrica ni psicometría.</strong> Activa el "eso ya lo hacemos" y el reflejo de que llega otro proveedor de tests.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No enumerar módulos, dimensiones ni arquitectura.</strong> Nada de eso cabe en noventa segundos y todo eso mata la curiosidad.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No ofrecer el roadmap.</strong> Solo se responde si preguntan.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No prometer resultados.</strong> Ni de abandono, ni de rendimiento, ni de satisfacción.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No mencionar competidores.</strong> Ni para compararnos.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No decir "vendemos".</strong> Ofrecemos.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No recitar la lista de colegios.</strong> Dos o tres relevantes, nunca todos.</span></div>
+        <div class="ri"><span class="m" style="color:var(--err)">×</span><span><strong>No insistir después de dos negativas.</strong> Se agradece, se pide permiso para volver a contactar en el futuro y se cierra bien. Un colegio que hoy dice que no puede decir que sí en dos años, y la memoria del sector es larga.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 12</span></div>
+    <h2 class="h2">Cierre sin reunión</h2>
+    <p class="intro">Si no hay reunión, la llamada todavía puede servir:</p>
+    <div class="script"><blockquote><p>"Sin problema, le agradezco el tiempo. ¿Le importa si le mando un correo con lo que hacemos, para que lo tenga por si en algún momento les encaja? Y si prefiere que no le vuelva a llamar, dígamelo y lo anoto."</p></blockquote></div>
+    <p class="why">Pedir permiso para no volver a llamar consigue, casi siempre, permiso para volver a llamar.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 13</span></div>
+    <h2 class="h2">Registro en HubSpot</h2>
+    <p class="intro">Después de cada llamada, sin excepción:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:34%">Campo</th><th>Contenido</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Resultado</td><td class="v">Reunión agendada · Seguimiento con fecha · No interesado · No contactado</td></tr>
+          <tr><td class="k">Interlocutor</td><td class="v">Nombre, cargo y correo directo si se consiguió</td></tr>
+          <tr><td class="k">Gancho utilizado</td><td class="v">Cuál de los ganchos de §5 o §6</td></tr>
+          <tr><td class="k">Objeción principal</td><td class="v">La que apareció, textual si es posible</td></tr>
+          <tr><td class="k">Módulo por el que preguntó</td><td class="v">Si preguntó por alguno</td></tr>
+          <tr><td class="k">Próxima acción</td><td class="v">Fecha concreta, nunca "más adelante"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="why">Los campos de gancho utilizado y de módulo por el que preguntó son los que permiten saber, en dos meses, qué convierte mejor por país y por tipo de centro. Sin ese dato, el guion no mejora.</p>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 14</span></div>
+    <h2 class="h2">Adaptación por mercado</h2>
+    <p class="intro">El tratamiento de usted se mantiene en todos los mercados: es una primera llamada profesional. Lo que cambia es el léxico.</p>
+    <div class="tbl-wrap scrollx">
+      <table>
+        <thead><tr><th>Neutro</th><th>España</th><th>Argentina · Uruguay</th><th>México</th><th>Chile</th><th>Honduras</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Secundaria</td><td class="v">ESO y Bachillerato</td><td class="v">Secundario</td><td class="v">Secundaria y Bachillerato</td><td class="v">Enseñanza Media</td><td class="v">Educación Media</td></tr>
+          <tr><td class="k">Departamento de Orientación</td><td class="v">Departamento de Orientación</td><td class="v">Gabinete psicopedagógico</td><td class="v">Departamento de Orientación Educativa</td><td class="v">Unidad de Orientación</td><td class="v">Departamento de Consejería</td></tr>
+          <tr><td class="k">Jefatura de estudios</td><td class="v">Jefatura de Estudios</td><td class="v">Coordinación / Regencia</td><td class="v">Coordinación académica</td><td class="v">Unidad Técnico-Pedagógica</td><td class="v">Coordinación académica</td></tr>
+          <tr><td class="k">Dirección</td><td class="v">Dirección o Titularidad</td><td class="v">Dirección o Rectoría</td><td class="v">Dirección general</td><td class="v">Dirección o Sostenedor</td><td class="v">Dirección</td></tr>
+          <tr><td class="k">Elegir carrera</td><td class="v">Elegir carrera o grado</td><td class="v">Elegir carrera</td><td class="v">Elegir carrera o licenciatura</td><td class="v">Elegir carrera</td><td class="v">Elegir carrera</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="eyebrow"><span></span><span>Sección 15</span></div>
+    <h2 class="h2">Métrica de la llamada</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:60%">Indicador</th><th>Referencia de trabajo</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Llamadas hasta alcanzar al interlocutor correcto</td><td class="v">3 a 4</td></tr>
+          <tr><td class="k">Duración de la llamada útil</td><td class="v">90 a 120 segundos</td></tr>
+          <tr><td class="k">Conversión de contacto alcanzado a reunión</td><td class="v">Objetivo inicial 15 a 20%</td></tr>
+          <tr><td class="k">Asistencia efectiva a la reunión agendada</td><td class="v">Objetivo superior al 70%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="why">La segunda métrica es la que más se descuida. Una reunión agendada a la que nadie se conecta cuesta más que una negativa, porque consume agenda y no genera aprendizaje. Confirmar la reunión el día anterior por correo eleva la asistencia de forma considerable.</p>
+  </section>
+
+  <div class="foot">MY PATH.IA · Build your tomorrow.</div>
+
+</main>
+
+</body>
+</html>
